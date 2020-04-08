@@ -25,7 +25,9 @@ class MyApp extends StatelessWidget {
       home: StreamBuilder<FirebaseUser>(
         stream: bloc.onAuthStateChanged,
         builder: (context, snapshot) {
-          return (snapshot.hasData) ? HomePage() : AuthPage();
+          return (snapshot.connectionState == ConnectionState.active)
+              ? (snapshot.hasData) ? HomePage() : AuthPage()
+              : Container();
         },
       ),
     );

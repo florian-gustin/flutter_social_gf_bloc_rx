@@ -15,3 +15,4 @@ AssetImage profileImage = AssetImage('assets/profile.jpg');
 // Functions
 void hideKeyboard(BuildContext context) =>
     FocusScope.of(context).requestFocus(FocusNode());
+void fDisposingBlocOf(String name) => print('Disposing of $name');
