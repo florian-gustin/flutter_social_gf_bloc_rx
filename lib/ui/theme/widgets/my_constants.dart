@@ -12,6 +12,13 @@ AssetImage eventImage = AssetImage('assets/event.jpg');
 AssetImage homeImage = AssetImage('assets/home.jpg');
 AssetImage profileImage = AssetImage('assets/profile.jpg');
 
+// Icons
+Icon iHome = Icon(Icons.home);
+Icon iFriends = Icon(Icons.group);
+Icon iNotifications = Icon(Icons.notifications);
+Icon iProfile = Icon(Icons.account_circle);
+Icon iWrite = Icon(Icons.border_color);
+
 // Keys
 String kFirstname = 'firstname';
 String kLastname = 'lastname';

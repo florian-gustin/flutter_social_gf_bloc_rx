@@ -13,6 +13,7 @@ class MyBottomBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return BottomAppBar(
       color: baseAccent,
+      shape: CircularNotchedRectangle(),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         mainAxisSize: MainAxisSize.max,
