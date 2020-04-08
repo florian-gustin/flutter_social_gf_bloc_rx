@@ -4,7 +4,7 @@ import 'package:flutter_social_gf_bloc_rx/blocs/bloc_root.dart';
 import 'package:flutter_social_gf_bloc_rx/ui/theme/widgets.dart';
 
 class AuthPage extends StatelessWidget {
-  Widget authSection(int index, bloc) {
+  Widget authSection(int index, context, bloc) {
     return Column(
       children: <Widget>[
         MyPadding(
@@ -26,6 +26,32 @@ class AuthPage extends StatelessWidget {
           bottom: 15.0,
           left: 30.0,
           right: 30.0,
+        ),
+        MyPadding(
+          top: 15.0,
+          bottom: 15.0,
+          child: Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(25.0),
+            ),
+            elevation: 7.5,
+            child: Container(
+              width: 300.0,
+              height: 50.0,
+              decoration: MyGradient(
+                startColor: baseAccent,
+                endColor: base,
+                radius: 25.0,
+                isHorizontal: true,
+              ),
+              child: FlatButton(
+                onPressed: () {
+                  bloc.authConnect((index == 1), context);
+                },
+                child: MyText((index == 1) ? 'OK' : 'Register'),
+              ),
+            ),
+          ),
         ),
       ],
     );
@@ -70,45 +96,49 @@ class AuthPage extends StatelessWidget {
           overscroll.disallowGlow();
         },
         child: SingleChildScrollView(
-          child: Container(
-            height: (MediaQuery.of(context).size.height >= 650)
-                ? MediaQuery.of(context).size.height
-                : 650.0,
-            width: MediaQuery.of(context).size.width,
-            decoration: MyGradient(
-              startColor: base,
-              endColor: baseAccent,
-            ),
-            child: SafeArea(
-              child: Column(
-                children: <Widget>[
-                  MyPadding(
-                    child: Image(
-                      height: 100,
-                      image: logoImage,
+          child: InkWell(
+            child: Container(
+              height: (MediaQuery.of(context).size.height >= 650)
+                  ? MediaQuery.of(context).size.height
+                  : 650.0,
+              width: MediaQuery.of(context).size.width,
+              decoration: MyGradient(
+                startColor: base,
+                endColor: baseAccent,
+              ),
+              child: SafeArea(
+                child: Column(
+                  children: <Widget>[
+                    MyPadding(
+                      child: Image(
+                        height: 100,
+                        image: logoImage,
+                      ),
                     ),
-                  ),
-                  MyPadding(
-                    child: MyMenuAuth(
-                        item1: 'Sign In',
-                        item2: 'Sign Up',
-                        pageController: bloc.pageController),
-                    top: 20.0,
-                    bottom: 20.0,
-                  ),
-                  Expanded(
-                    flex: 2,
-                    child: PageView(
-                      controller: bloc.pageController,
-                      children: <Widget>[
-                        authSection(0, bloc),
-                        authSection(1, bloc),
-                      ],
+                    MyPadding(
+                      child: MyMenuAuth(
+                          item1: 'Sign In',
+                          item2: 'Sign Up',
+                          pageController: bloc.pageController),
+                      top: 20.0,
+                      bottom: 20.0,
                     ),
-                  ),
-                ],
+                    Expanded(
+                      flex: 2,
+                      child: PageView(
+                        controller: bloc.pageController,
+                        children: <Widget>[
+                          authSection(1, context, bloc),
+                          authSection(0, context, bloc),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
+            // dismissing keyboard
+            onTap: () => hideKeyboard(context),
           ),
         ),
       ),

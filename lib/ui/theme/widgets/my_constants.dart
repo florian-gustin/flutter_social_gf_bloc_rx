@@ -11,3 +11,7 @@ AssetImage logoImage = AssetImage('assets/darkBee.png');
 AssetImage eventImage = AssetImage('assets/event.jpg');
 AssetImage homeImage = AssetImage('assets/home.jpg');
 AssetImage profileImage = AssetImage('assets/profile.jpg');
+
+// Functions
+void hideKeyboard(BuildContext context) =>
+    FocusScope.of(context).requestFocus(FocusNode());

@@ -4,6 +4,8 @@ import 'package:flutter_social_gf_bloc_rx/blocs/base.dart';
 import 'package:flutter_social_gf_bloc_rx/constants.dart';
 import 'package:flutter_social_gf_bloc_rx/models/user_firebase.dart';
 import 'package:flutter_social_gf_bloc_rx/services/firebase.dart';
+import 'package:flutter_social_gf_bloc_rx/ui/theme/widgets/my_alert.dart';
+import 'package:flutter_social_gf_bloc_rx/ui/theme/widgets/my_constants.dart';
 import 'package:rxdart/rxdart.dart';
 
 class BlocRoot extends BlocBase {
@@ -28,6 +30,30 @@ class BlocRoot extends BlocBase {
     pwd = TextEditingController();
     firstname = TextEditingController();
     lastname = TextEditingController();
+  }
+
+  authConnect(bool exist, BuildContext context) {
+    hideKeyboard(context);
+
+    if (mail.text == null || mail.text == '')
+      return MyAlert().error(context, 'None email address');
+    if (pwd.text == null || pwd.text == '')
+      return MyAlert().error(context, 'None password');
+    if (exist) {
+      _firebase.onAuthStateChanged.listen((FirebaseUser user) {
+//        return _firebase.signIn(mail.text, pwd.text);
+      });
+    } else {
+      if (firstname.text == null || firstname.text == '')
+        return MyAlert().error(context, 'None first name');
+      if (lastname.text == null || lastname.text == '')
+        return MyAlert().error(context, 'None last name');
+
+      _firebase.onAuthStateChanged.listen((FirebaseUser user) {
+//        return _firebase.signUp(
+//            mail.text, pwd.text, firstname.text, lastname.text);
+      });
+    }
   }
 
   @override
