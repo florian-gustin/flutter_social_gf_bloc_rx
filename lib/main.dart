@@ -2,32 +2,31 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_social_gf_bloc_rx/blocs/base.dart';
 import 'package:flutter_social_gf_bloc_rx/blocs/bloc_root.dart';
-import 'package:flutter_social_gf_bloc_rx/ui/pages/auth_page.dart';
-import 'package:flutter_social_gf_bloc_rx/ui/pages/home_page.dart';
+import 'package:flutter_social_gf_bloc_rx/blocs/bloc_router.dart';
 
 void main() {
-  runApp(BlocProvider<BlocRoot>(
-    builder: (_, bloc) => BlocRoot(),
-    onDispose: (_, bloc) => bloc.dispose(),
-    child: MyApp(),
-  ));
+  runApp(
+    BlocRouter().root(),
+  );
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final bloc = GetBloc.of<BlocRoot>(context);
+    final root = GetBloc.of<BlocRoot>(context);
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(primarySwatch: Colors.blue),
       home: StreamBuilder<FirebaseUser>(
-        stream: bloc.onAuthStateChanged,
+        stream: root.onAuthStateChanged,
         builder: (context, snapshot) {
           return (snapshot.connectionState == ConnectionState.active)
-              ? (snapshot.hasData) ? HomePage() : AuthPage()
-              : Container();
+              ? (snapshot.hasData)
+                  ? BlocRouter().home(userID: snapshot.data.uid)
+                  : BlocRouter().auth()
+              : BlocRouter().loading();
         },
       ),
     );

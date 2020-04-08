@@ -87,7 +87,7 @@ class AuthPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = GetBloc.of<BlocRoot>(context);
+    final root = GetBloc.of<BlocRoot>(context);
 
     return Scaffold(
       body: NotificationListener<OverscrollIndicatorNotification>(
@@ -119,17 +119,17 @@ class AuthPage extends StatelessWidget {
                       child: MyMenuAuth(
                           item1: 'Sign In',
                           item2: 'Sign Up',
-                          pageController: bloc.pageController),
+                          pageController: root.pageController),
                       top: 20.0,
                       bottom: 20.0,
                     ),
                     Expanded(
                       flex: 2,
                       child: PageView(
-                        controller: bloc.pageController,
+                        controller: root.pageController,
                         children: <Widget>[
-                          authSection(1, context, bloc),
-                          authSection(0, context, bloc),
+                          authSection(1, context, root),
+                          authSection(0, context, root),
                         ],
                       ),
                     ),

@@ -12,6 +12,14 @@ AssetImage eventImage = AssetImage('assets/event.jpg');
 AssetImage homeImage = AssetImage('assets/home.jpg');
 AssetImage profileImage = AssetImage('assets/profile.jpg');
 
+// Keys
+String kFirstname = 'firstname';
+String kLastname = 'lastname';
+String kImageUrl = 'imageUrl';
+String kFollowers = 'followers';
+String kFollowing = 'following';
+String kUID = 'uid';
+
 // Functions
 void hideKeyboard(BuildContext context) =>
     FocusScope.of(context).requestFocus(FocusNode());

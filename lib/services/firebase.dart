@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_social_gf_bloc_rx/ui/theme/widgets.dart';
 
 class Firebase {
   final FirebaseAuth authInstance = FirebaseAuth.instance;
@@ -32,12 +33,12 @@ class Firebase {
     // create user
     String uid = user?.user?.uid;
     Map<String, dynamic> map = {
-      'firstname': firstname,
-      'lastname': lastname,
-      'imageUrl': '',
-      'followers': <dynamic>[],
-      'following': <dynamic>[uid],
-      'uid': uid,
+      kFirstname: firstname,
+      kLastname: lastname,
+      kImageUrl: '',
+      kFollowers: <dynamic>[],
+      kFollowing: <dynamic>[uid],
+      kUID: uid,
     };
     addUser(uid, map);
     return user?.user;
