@@ -6,11 +6,13 @@ class MyHeaderDelegate extends SliverPersistentHeaderDelegate {
   User user;
   Function callback;
   bool scrolled;
+  bool isMe;
 
   MyHeaderDelegate({
     @required this.user,
     @required this.callback,
     @required this.scrolled,
+    @required this.isMe,
   }) {}
 
   @override
@@ -31,7 +33,7 @@ class MyHeaderDelegate extends SliverPersistentHeaderDelegate {
                   width: 0.0,
                   height: 0.0,
                 )
-              : MyText('${user.firstname} ${user.lastname}'),
+              : element('${user.firstname} ${user.lastname}', isMe),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
@@ -39,7 +41,7 @@ class MyHeaderDelegate extends SliverPersistentHeaderDelegate {
                 url: user.imageUrl,
                 onPressed: () {},
               ),
-              MyText((user?.description ?? 'None description')),
+              element((user?.description ?? 'None description'), isMe)
             ],
           ),
           Container(
@@ -62,6 +64,17 @@ class MyHeaderDelegate extends SliverPersistentHeaderDelegate {
         ],
       ),
     );
+  }
+
+  Widget element(String text, bool isMe) {
+    if (isMe) {
+      return InkWell(
+        child: MyText(text),
+        onTap: callback,
+      );
+    } else {
+      return MyText(text);
+    }
   }
 
   @override

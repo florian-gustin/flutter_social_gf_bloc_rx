@@ -6,8 +6,64 @@ import 'package:flutter_social_gf_bloc_rx/blocs/bloc_profile.dart';
 import 'package:flutter_social_gf_bloc_rx/models/post.dart';
 import 'package:flutter_social_gf_bloc_rx/ui/theme/widgets.dart';
 import 'package:flutter_social_gf_bloc_rx/ui/tiles/post_tile.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ProfilePage extends StatelessWidget {
+  void updateImageProfile(BuildContext context, BlocProfile profile) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext ctx) {
+        return Container(
+          color: Colors.transparent,
+          child: Card(
+            elevation: 5.0,
+            margin: EdgeInsets.all(7.5),
+            child: Container(
+              padding: EdgeInsets.all(10.0),
+              color: base,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  MyText(
+                    'Your Image Profile',
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      IconButton(
+                        icon: iCam,
+                        onPressed: () =>
+                            profile.takePictureAsStream(ImageSource.camera),
+                      ),
+                      IconButton(
+                        icon: iGallery,
+                        onPressed: () =>
+                            profile.takePictureAsStream(ImageSource.gallery),
+                      ),
+                    ],
+                  ),
+//                  MyTextField(
+//                    controller: profile.firstname,
+//                    hint: profile.user.firstname,
+//                  ),
+//                  MyTextField(
+//                    controller: profile.lastname,
+//                    hint: profile.user.lastname,
+//                  ),
+//                  MyTextField(
+//                    controller: profile.description,
+//                    hint: profile.user.description,
+//                  ),
+//                  MyGradientButton(onPressed: () {}, text: 'Update')
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final profile = GetBloc.of<BlocProfile>(context);
@@ -29,7 +85,16 @@ class ProfilePage extends StatelessWidget {
                             SliverAppBar(
                               pinned: true,
                               expandedHeight: profile.expanded,
-                              actions: <Widget>[],
+                              actions: <Widget>[
+                                (profile.isMe)
+                                    ? IconButton(
+                                        icon: iSettings,
+                                        onPressed: () =>
+                                            profile.handleSignOut(context),
+                                        color: pointer,
+                                      )
+                                    : MyText('Add fun later')
+                              ],
                               flexibleSpace: FlexibleSpaceBar(
                                 title: MyText(profile.showTitle
                                     ? (profile.user.lastname +
@@ -40,14 +105,17 @@ class ProfilePage extends StatelessWidget {
                                   decoration: BoxDecoration(
                                     image: DecorationImage(
                                       image: profileImage,
+                                      // TODO : s'entrainer a merged combined stream parce qu'avec le rajout du stream pour l'image ca fait trop de nested, surement moyen d'optimiser
                                       fit: BoxFit.cover,
                                     ),
                                   ),
                                   child: Center(
                                     child: MyImageProfile(
-                                        url: profile.user.imageUrl,
-                                        size: 75.0,
-                                        onPressed: () {}),
+                                      url: profile.user.imageUrl,
+                                      size: 75.0,
+                                      onPressed: () => this
+                                          .updateImageProfile(context, profile),
+                                    ),
                                   ),
                                 ),
                               ),
@@ -55,8 +123,10 @@ class ProfilePage extends StatelessWidget {
                             SliverPersistentHeader(
                               pinned: true,
                               delegate: MyHeaderDelegate(
+                                  isMe: profile.isMe,
                                   user: profile.user,
-                                  callback: () {},
+                                  callback: () =>
+                                      updateImageProfile(context, profile),
                                   scrolled: profile.showTitle),
                             ),
                             SliverList(

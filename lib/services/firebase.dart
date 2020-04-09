@@ -17,6 +17,8 @@ class Firebase {
   Stream<FirebaseUser> get onAuthStateChanged =>
       authInstance.onAuthStateChanged;
 
+  Stream<FirebaseUser> get currentUser => authInstance.currentUser().asStream();
+
   // auth
   Future<FirebaseUser> signIn(String mail, String pwd) async {
     final AuthResult user = await authInstance.signInWithEmailAndPassword(
@@ -82,6 +84,10 @@ class Firebase {
     dbUsers.document(uid).setData(map);
   }
 
+  void updateUser(String uid, Map<String, dynamic> map) {
+    dbUsers.document(uid).updateData(map);
+  }
+
   void addPost(String uid, String text, File file) {
     int date = DateTime.now().millisecondsSinceEpoch.toInt();
     Map<String, dynamic> map = {
@@ -119,5 +125,13 @@ class Firebase {
 
   Stream<String> addImageAsStream(File file, StorageReference ref) {
     return Stream.fromFuture(addImage(file, ref));
+  }
+
+  void updatePicture(File file, String uid) {
+    StorageReference ref = storageUser.child(uid);
+    addImage(file, ref).then((path) {
+      Map<String, dynamic> m = {kImageUrl: path};
+      updateUser(uid, m);
+    });
   }
 }

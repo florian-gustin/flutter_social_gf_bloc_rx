@@ -13,6 +13,43 @@ class MyAlert {
     );
   }
 
+  FlatButton logOutButton(BuildContext ctx, Function onPressed) {
+    return FlatButton(
+      onPressed: onPressed,
+      child: MyText(
+        'OK',
+        color: Colors.blue,
+      ),
+    );
+  }
+
+  Future<void> logOut(BuildContext context, Function onPressed) async {
+    MyText title = MyText(
+      'Would you like to log out ?',
+      color: base,
+    );
+    return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext ctx) {
+          return (Theme.of(context).platform == TargetPlatform.iOS)
+              ? CupertinoAlertDialog(
+                  title: title,
+                  actions: <Widget>[
+                    closeButton(ctx, 'NO'),
+                    logOutButton(ctx, onPressed)
+                  ],
+                )
+              : AlertDialog(
+                  title: title,
+                  actions: <Widget>[
+                    closeButton(ctx, 'NO'),
+                    logOutButton(ctx, onPressed)
+                  ],
+                );
+        });
+  }
+
   Future<void> error(BuildContext context, String error) async {
     MyText title = MyText(
       'Error',

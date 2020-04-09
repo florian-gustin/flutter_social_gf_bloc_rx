@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_social_gf_bloc_rx/blocs/base.dart';
 import 'package:flutter_social_gf_bloc_rx/blocs/bloc_root.dart';
 import 'package:flutter_social_gf_bloc_rx/blocs/bloc_router.dart';
+import 'package:flutter_social_gf_bloc_rx/ui/theme/widgets.dart';
 
 void main() {
   runApp(
@@ -18,7 +19,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      theme: ThemeData(primarySwatch: Colors.blue),
+      theme: ThemeData(
+        primarySwatch: Colors.grey,
+        canvasColor: Colors.transparent,
+        primaryColor: base,
+        accentColor: baseAccent,
+      ),
       home: StreamBuilder<FirebaseUser>(
         stream: root.onAuthStateChanged,
         builder: (context, snapshot) {
