@@ -30,27 +30,11 @@ class AuthPage extends StatelessWidget {
         MyPadding(
           top: 15.0,
           bottom: 15.0,
-          child: Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(25.0),
-            ),
-            elevation: 7.5,
-            child: Container(
-              width: 300.0,
-              height: 50.0,
-              decoration: MyGradient(
-                startColor: baseAccent,
-                endColor: base,
-                radius: 25.0,
-                isHorizontal: true,
-              ),
-              child: FlatButton(
-                onPressed: () {
-                  bloc.authConnect((index == 1), context);
-                },
-                child: MyText((index == 1) ? 'OK' : 'Register'),
-              ),
-            ),
+          child: MyGradientButton(
+            onPressed: () {
+              bloc.authConnect((index == 1), context);
+            },
+            text: (index == 1) ? 'OK' : 'Register',
           ),
         ),
       ],

@@ -32,19 +32,25 @@ class HomePage extends StatelessWidget {
     return StreamBuilder<User>(
       stream: home.streamUser,
       builder: (context, snapshot) {
+        final user = snapshot.data;
         return (snapshot.hasData)
-            ? StreamBuilder(
+            ? StreamBuilder<int>(
                 stream: home.streamIndex,
                 builder: (ctx, snap) {
-                  return (snapshot.hasData)
+                  final index = snap.data;
+                  return (snap.hasData)
                       ? Scaffold(
                           key: home.globalKey,
                           backgroundColor: base,
-                          body: showPage(snap.data, snapshot.data),
+                          body: showPage(index, user),
                           floatingActionButtonLocation:
                               FloatingActionButtonLocation.centerDocked,
                           floatingActionButton: FloatingActionButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              home.globalKey.currentState.showBottomSheet(
+                                (context) => BlocRouter().newPost(),
+                              );
+                            },
                             child: iWrite,
                             backgroundColor: pointer,
                           ),
@@ -53,12 +59,12 @@ class HomePage extends StatelessWidget {
                                 icon: iHome,
                                 onPressed: (() =>
                                     home.onBottomBarItemSelected(0)),
-                                selected: home.index == 0),
+                                selected: index == 0),
                             MyBarItem(
                                 icon: iFriends,
                                 onPressed: (() =>
                                     home.onBottomBarItemSelected(1)),
-                                selected: home.index == 1),
+                                selected: index == 1),
                             SizedBox(
                               height: 0,
                               width: 0,
@@ -67,12 +73,12 @@ class HomePage extends StatelessWidget {
                                 icon: iNotifications,
                                 onPressed: (() =>
                                     home.onBottomBarItemSelected(2)),
-                                selected: home.index == 2),
+                                selected: index == 2),
                             MyBarItem(
                                 icon: iProfile,
                                 onPressed: (() =>
                                     home.onBottomBarItemSelected(3)),
-                                selected: home.index == 3),
+                                selected: index == 3),
                           ]),
                         )
                       : SizedBox();

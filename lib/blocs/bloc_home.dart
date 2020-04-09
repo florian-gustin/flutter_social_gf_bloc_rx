@@ -12,7 +12,7 @@ class BlocHome extends BlocBase {
   Firebase _firebase;
   int index;
 
-  PublishSubject<int> _subjectIndex = PublishSubject<int>();
+  BehaviorSubject<int> _subjectIndex = BehaviorSubject<int>();
   Stream<int> get streamIndex => _subjectIndex.stream;
   Sink<int> get sinkIndex => _subjectIndex.sink;
 

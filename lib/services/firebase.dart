@@ -1,10 +1,16 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import '';
 import 'package:flutter_social_gf_bloc_rx/ui/theme/widgets.dart';
 
 class Firebase {
   final FirebaseAuth authInstance = FirebaseAuth.instance;
   static final Firestore dbInstance = Firestore.instance;
+  static final StorageReference storageInstance =
+      FirebaseStorage.instance.ref();
 
   Firebase();
 
@@ -76,6 +82,39 @@ class Firebase {
     dbUsers.document(uid).setData(map);
   }
 
-  // storage
+  void addPost(String uid, String text, File file) {
+    int date = DateTime.now().millisecondsSinceEpoch.toInt();
+    Map<String, dynamic> map = {
+      kUID: uid,
+      kLikes: <dynamic>[],
+      kComments: <dynamic>[],
+      kDate: date,
+    };
+    if (text != null && text != '') map[kText] = text;
+    if (file != null) {
+      StorageReference ref = storagePost.child(uid).child(date.toString());
+      addImage(file, ref).then((onEnd) {
+        String imageUrl = onEnd;
+        map[kImageUrl] = imageUrl;
+        dbUsers.document(uid).collection('posts').document().setData(map);
+      });
+    } else {
+      dbUsers.document(uid).collection('posts').document().setData(map);
+    }
+  }
 
+  // storage
+  final storageUser = storageInstance.child('users');
+  final storagePost = storageInstance.child('posts');
+
+  Future<String> addImage(File file, StorageReference ref) async {
+    StorageUploadTask task = ref.putFile(file);
+    StorageTaskSnapshot snapshot = await task.onComplete;
+    String url = await snapshot.ref.getDownloadURL();
+    return url;
+  }
+
+  Stream<String> addImageAsStream(File file, StorageReference ref) {
+    return Stream.fromFuture(addImage(file, ref));
+  }
 }

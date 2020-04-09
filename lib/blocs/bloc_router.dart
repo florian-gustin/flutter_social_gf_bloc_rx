@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_social_gf_bloc_rx/blocs/bloc_home.dart';
+import 'package:flutter_social_gf_bloc_rx/blocs/bloc_new_post.dart';
 import 'package:flutter_social_gf_bloc_rx/blocs/bloc_profile.dart';
 import 'package:flutter_social_gf_bloc_rx/blocs/bloc_profile.dart';
 import 'package:flutter_social_gf_bloc_rx/blocs/bloc_users.dart';
@@ -9,6 +10,7 @@ import 'package:flutter_social_gf_bloc_rx/models/user.dart';
 import 'package:flutter_social_gf_bloc_rx/ui/pages/auth_page.dart';
 import 'package:flutter_social_gf_bloc_rx/ui/pages/feed_page.dart';
 import 'package:flutter_social_gf_bloc_rx/ui/pages/home_page.dart';
+import 'package:flutter_social_gf_bloc_rx/ui/pages/new_post_page.dart';
 import 'package:flutter_social_gf_bloc_rx/ui/pages/notifications_page.dart';
 import 'package:flutter_social_gf_bloc_rx/ui/pages/notifications_page.dart';
 import 'package:flutter_social_gf_bloc_rx/ui/pages/notifications_page.dart';
@@ -58,5 +60,11 @@ class BlocRouter {
         builder: (_, bloc) => BlocProfile(user: user),
         onDispose: (_, bloc) => bloc.dispose(),
         child: ProfilePage(),
+      );
+
+  BlocProvider newPost() => BlocProvider<BlocNewPost>(
+        builder: (_, bloc) => BlocNewPost(),
+        onDispose: (_, bloc) => bloc.dispose(),
+        child: NewPostPage(),
       );
 }

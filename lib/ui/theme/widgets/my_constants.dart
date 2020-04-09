@@ -18,6 +18,9 @@ Icon iFriends = Icon(Icons.group);
 Icon iNotifications = Icon(Icons.notifications);
 Icon iProfile = Icon(Icons.account_circle);
 Icon iWrite = Icon(Icons.border_color);
+Icon iSend = Icon(Icons.send);
+Icon iCam = Icon(Icons.camera_enhance);
+Icon iGallery = Icon(Icons.photo_library);
 
 // Keys
 String kFirstname = 'firstname';
@@ -26,8 +29,14 @@ String kImageUrl = 'imageUrl';
 String kFollowers = 'followers';
 String kFollowing = 'following';
 String kUID = 'uid';
+String kPostID = 'postID';
+String kText = 'text';
+String kDate = 'date';
+String kLikes = 'likes';
+String kComments = 'comments';
 
 // Functions
 void hideKeyboard(BuildContext context) =>
     FocusScope.of(context).requestFocus(FocusNode());
+void popContext(BuildContext context) => Navigator.pop(context);
 void fDisposingBlocOf(String name) => print('Disposing of $name');
