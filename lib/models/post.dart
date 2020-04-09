@@ -9,9 +9,7 @@ class Post {
   List<dynamic> likes;
   List<dynamic> comments;
 
-  User user;
-
-  Post(this.user, DocumentSnapshot snapshot) {
+  Post(DocumentSnapshot snapshot) {
     ref = snapshot.reference;
     documentID = snapshot.documentID;
     Map<String, dynamic> map = snapshot.data;

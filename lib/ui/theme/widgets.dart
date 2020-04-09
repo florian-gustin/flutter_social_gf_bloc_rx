@@ -13,3 +13,5 @@ export 'widgets/my_loading_center.dart';
 export 'widgets/my_bottom_bar.dart';
 export 'widgets/my_bar_item.dart';
 export 'widgets/my_gradient_button.dart';
+export 'widgets/my_header_delegate.dart';
+export 'widgets/my_image_profile.dart';

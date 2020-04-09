@@ -34,6 +34,7 @@ String kText = 'text';
 String kDate = 'date';
 String kLikes = 'likes';
 String kComments = 'comments';
+String kDescription = 'description';
 
 // Functions
 void hideKeyboard(BuildContext context) =>

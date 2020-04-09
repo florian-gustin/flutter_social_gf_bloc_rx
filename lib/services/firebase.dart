@@ -103,6 +103,9 @@ class Firebase {
     }
   }
 
+  Stream<QuerySnapshot> allPostsFrom(String uid) =>
+      dbUsers.document(uid).collection('posts').snapshots();
+
   // storage
   final storageUser = storageInstance.child('users');
   final storagePost = storageInstance.child('posts');

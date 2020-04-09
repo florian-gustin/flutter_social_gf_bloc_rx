@@ -7,6 +7,7 @@ class User {
   List<dynamic> following;
   DocumentReference ref;
   String documentID;
+  String description;
 
   User(DocumentSnapshot snapshot) {
     ref = snapshot.reference;
@@ -18,6 +19,7 @@ class User {
     imageUrl = map[kImageUrl];
     followers = map[kFollowers];
     following = map[kFollowing];
+    description = map[kDescription];
   }
 
   Map<String, dynamic> toMap() {
@@ -27,7 +29,8 @@ class User {
       kLastname: lastname,
       kImageUrl: imageUrl,
       kFollowers: followers,
-      kFollowing: following
+      kFollowing: following,
+      kDescription: description,
     };
   }
 }
