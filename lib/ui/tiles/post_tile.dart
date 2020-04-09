@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_social_gf_bloc_rx/models/post.dart';
 import 'package:flutter_social_gf_bloc_rx/models/user.dart';
@@ -48,6 +49,77 @@ class PostTile extends StatelessWidget {
                   ),
                 ],
               ),
+              (post.imageUrl != null && post.imageUrl != '')
+                  ? MyPadding(
+                      child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 1.0,
+                      color: baseAccent,
+                    ))
+                  : Container(
+                      height: 0.0,
+                    ),
+              (post.imageUrl != null && post.imageUrl != '')
+                  ? MyPadding(
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 0.85,
+                        height: MediaQuery.of(context).size.width * 0.85,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20.0),
+                            image: DecorationImage(
+                                image:
+                                    CachedNetworkImageProvider(post.imageUrl),
+                                fit: BoxFit.cover)),
+                      ),
+                    )
+                  : Container(
+                      height: 0.0,
+                    ),
+              (post.text != null && post.text != '')
+                  ? MyPadding(
+                      child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 1.0,
+                      color: baseAccent,
+                    ))
+                  : Container(
+                      height: 0.0,
+                    ),
+              (post.text != null && post.text != '')
+                  ? MyPadding(
+                      child: MyText(
+                      post.text,
+                      color: baseAccent,
+                    ))
+                  : Container(
+                      height: 0.0,
+                    ),
+              MyPadding(
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 1.0,
+                  color: baseAccent,
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  IconButton(
+                      icon: (post.likes.contains(user.uid))
+                          ? iLikeFull
+                          : iLikeEmpty,
+                      onPressed: null),
+                  MyText(
+                    post.likes.length.toString(),
+                    color: baseAccent,
+                  ),
+                  IconButton(icon: iMsg, onPressed: null),
+                  MyText(
+                    post.comments.length.toString(),
+                    color: baseAccent,
+                  ),
+                ],
+              )
             ],
           ),
         ),

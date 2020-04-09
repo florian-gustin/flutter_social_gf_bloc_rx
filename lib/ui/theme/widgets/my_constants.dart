@@ -21,6 +21,9 @@ Icon iWrite = Icon(Icons.border_color);
 Icon iSend = Icon(Icons.send);
 Icon iCam = Icon(Icons.camera_enhance);
 Icon iGallery = Icon(Icons.photo_library);
+Icon iLikeEmpty = Icon(Icons.favorite_border);
+Icon iLikeFull = Icon(Icons.favorite);
+Icon iMsg = Icon(Icons.message);
 
 // Keys
 String kFirstname = 'firstname';
