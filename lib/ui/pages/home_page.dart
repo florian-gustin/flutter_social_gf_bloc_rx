@@ -13,7 +13,7 @@ class HomePage extends StatelessWidget {
       case 0:
         return BlocRouter().feed(user: user);
       case 1:
-        return BlocRouter().users(user: user);
+        return BlocRouter().users();
       case 2:
         return BlocRouter().notifications(user: user);
       default:

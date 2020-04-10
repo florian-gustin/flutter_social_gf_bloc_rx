@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -13,6 +14,7 @@ import 'package:rxdart/rxdart.dart';
 
 class BlocProfile extends BlocBase {
   User user;
+  User me;
   Firebase _firebase;
   bool isMe;
   ScrollController scrollController;
@@ -34,6 +36,10 @@ class BlocProfile extends BlocBase {
   Sink<ScrollController> get sinkScrollController =>
       _subjectScrollController.sink;
 
+  BehaviorSubject<User> _subjectUser = BehaviorSubject<User>();
+  Stream<User> get streamUser => _subjectUser.stream;
+  Sink<User> get sinkUser => _subjectUser.sink;
+
   BlocProfile({@required this.user}) {
     scrollController = ScrollController();
     syncScrollController();
@@ -42,7 +48,27 @@ class BlocProfile extends BlocBase {
     firstname = TextEditingController();
     lastname = TextEditingController();
     description = TextEditingController();
+    // retrieve datas from streams
+    refreshingUsers();
   }
+
+  void refreshingUsers() {
+    _firebase.currentUser.map((FirebaseUser user) => user.uid).listen((uid) {
+      _firebase.dbUsers.document(user.uid).snapshots().listen((data) {
+        user = User(data);
+        if (uid == user.uid) {
+          isMe = true;
+        } else {
+          isMe = false;
+        }
+        _firebase.dbUsers.document(uid).snapshots().listen((datas) {
+          me = User(datas);
+        });
+        sinkUser.add(user);
+      });
+    });
+  }
+
   // need these two functions and a stream to bypass
   // the actual usage of ScrollController Widget
   // to listening from BLoC Pattern
@@ -54,9 +80,12 @@ class BlocProfile extends BlocBase {
   }
 
   void syncScrollController() => sinkScrollController.add(scrollController);
+
   Stream<QuerySnapshot> get allPostsFrom => _firebase.allPostsFrom(user.uid);
 
   void get signOut => _firebase.signOut();
+
+  void handleFollow() => _firebase.upsertFollow(user, me);
 
   dynamic handleSignOut(BuildContext context) {
     MyAlert().logOut(context, () {
@@ -65,33 +94,37 @@ class BlocProfile extends BlocBase {
     });
   }
 
+  handleUpdateUserInfos() {
+    Map<String, dynamic> data = {};
+    if (firstname.text != null && firstname.text != '')
+      data[kFirstname] = firstname.text;
+    if (lastname.text != null && lastname.text != '')
+      data[kLastname] = lastname.text;
+    if (description.text != null && description.text != '')
+      data[kDescription] = description.text;
+    _firebase.updateUser(user.uid, data);
+  }
+
   void takePictureAsStream(ImageSource source) {
     if (isMe) {
-      ImagePicker.pickImage(source: source).asStream().listen((File file) {
+      ImagePicker.pickImage(source: source, maxHeight: 500.0, maxWidth: 500.0)
+          .asStream()
+          .listen((File file) {
         newImageTaken = file;
         _firebase.updatePicture(file, user.uid);
       });
     }
   }
 
-  void isMeAsUser(Stream<User> userStream) {
-    userStream.listen((usr) {
-      if (usr.uid == user.uid) {
-        isMe = true;
-        user = usr;
-      } else {
-        isMe = false;
-      }
-    });
-  }
-
   @override
-  void dispose() {
+  void dispose() async {
     firstname.dispose();
     lastname.dispose();
     description.dispose();
     scrollController.dispose();
     _subjectScrollController.close();
     fDisposingBlocOf('Bloc Profile');
+    await _subjectUser.drain();
+    _subjectUser.close();
   }
 }

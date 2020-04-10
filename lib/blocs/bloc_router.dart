@@ -43,8 +43,8 @@ class BlocRouter {
         child: FeedPage(),
       );
 
-  BlocProvider users({@required User user}) => BlocProvider<BlocUsers>(
-        builder: (_, bloc) => BlocUsers(user: user),
+  BlocProvider users() => BlocProvider<BlocUsers>(
+        builder: (_, bloc) => BlocUsers(),
         onDispose: (_, bloc) => bloc.dispose(),
         child: UsersPage(),
       );

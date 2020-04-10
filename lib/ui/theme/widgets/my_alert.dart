@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_social_gf_bloc_rx/models/user.dart';
 import 'package:flutter_social_gf_bloc_rx/ui/theme/widgets.dart';
 
 class MyAlert {
@@ -45,6 +46,72 @@ class MyAlert {
                   actions: <Widget>[
                     closeButton(ctx, 'NO'),
                     logOutButton(ctx, onPressed)
+                  ],
+                );
+        });
+  }
+
+  Future<void> updateUserAlert(
+    BuildContext context, {
+    @required TextEditingController firstname,
+    @required TextEditingController lastname,
+    @required TextEditingController description,
+    @required User user,
+    @required Function onValidation,
+  }) async {
+    MyTextField firstnameTF = MyTextField(
+      controller: firstname,
+      hint: user.firstname,
+    );
+
+    MyTextField lastnameTF = MyTextField(
+      controller: lastname,
+      hint: user.lastname,
+    );
+
+    MyTextField descriptionTF = MyTextField(
+      controller: description,
+      hint: user.description,
+    );
+
+    MyText title = MyText(
+      'Edit user informations',
+      color: pointer,
+    );
+
+    return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext ctx) {
+          return (Theme.of(context).platform == TargetPlatform.iOS)
+              ? CupertinoAlertDialog(
+                  title: title,
+                  content: Column(
+                    children: <Widget>[firstnameTF, lastnameTF, descriptionTF],
+                  ),
+                  actions: <Widget>[
+                    closeButton(ctx, 'Cancel'),
+                    FlatButton(
+                        onPressed: onValidation,
+                        child: MyText(
+                          'OK',
+                          color: Colors.blue,
+                        ))
+                  ],
+                )
+              : AlertDialog(
+                  title: title,
+                  content: Column(
+                    children: <Widget>[firstnameTF, lastnameTF, descriptionTF],
+                  ),
+                  actions: <Widget>[
+                    closeButton(ctx, 'Cancel'),
+                    FlatButton(
+                        onPressed: onValidation,
+                        child: MyText(
+                          'OK',
+                          color: Colors.blue,
+                        ))
                   ],
                 );
         });

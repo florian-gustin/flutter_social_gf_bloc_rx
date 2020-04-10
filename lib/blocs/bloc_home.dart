@@ -44,10 +44,11 @@ class BlocHome extends BlocBase {
   @override
   void dispose() async {
     _subjectIndex.close();
+    fDisposingBlocOf('Bloc Home');
+
     // fix bad state from profile
     // next time handle higher the bloc
     await _subjectUser.drain();
     _subjectUser.close();
-    fDisposingBlocOf('Bloc Home');
   }
 }

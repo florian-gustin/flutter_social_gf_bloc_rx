@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter_social_gf_bloc_rx/models/user.dart';
 import '';
 import 'package:flutter_social_gf_bloc_rx/ui/theme/widgets.dart';
 
@@ -86,6 +87,24 @@ class Firebase {
 
   void updateUser(String uid, Map<String, dynamic> map) {
     dbUsers.document(uid).updateData(map);
+  }
+
+  void upsertFollow(User other, User me) {
+    if (me.following.contains(other.uid)) {
+      me.ref.updateData({
+        kFollowing: FieldValue.arrayRemove([other.uid])
+      });
+      other.ref.updateData({
+        kFollowers: FieldValue.arrayRemove([me.uid])
+      });
+    } else {
+      me.ref.updateData({
+        kFollowing: FieldValue.arrayUnion([other.uid])
+      });
+      other.ref.updateData({
+        kFollowers: FieldValue.arrayUnion([me.uid])
+      });
+    }
   }
 
   void addPost(String uid, String text, File file) {
