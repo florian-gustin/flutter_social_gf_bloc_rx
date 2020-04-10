@@ -2,11 +2,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_social_gf_bloc_rx/blocs/base.dart';
 import 'package:flutter_social_gf_bloc_rx/blocs/bloc_feed.dart';
+import 'package:flutter_social_gf_bloc_rx/blocs/bloc_home.dart';
 import 'package:flutter_social_gf_bloc_rx/blocs/bloc_profile.dart';
 import 'package:flutter_social_gf_bloc_rx/models/post.dart';
 import 'package:flutter_social_gf_bloc_rx/ui/theme/widgets.dart';
 import 'package:flutter_social_gf_bloc_rx/ui/tiles/post_tile.dart';
 import 'package:image_picker/image_picker.dart';
+
+import '../theme/widgets.dart';
+import '../theme/widgets.dart';
 
 class ProfilePage extends StatelessWidget {
   void updateImageProfile(BuildContext context, BlocProfile profile) {
@@ -32,13 +36,17 @@ class ProfilePage extends StatelessWidget {
                     children: <Widget>[
                       IconButton(
                         icon: iCam,
-                        onPressed: () =>
-                            profile.takePictureAsStream(ImageSource.camera),
+                        onPressed: () {
+                          profile.takePictureAsStream(ImageSource.camera);
+                          popContext(context);
+                        },
                       ),
                       IconButton(
                         icon: iGallery,
-                        onPressed: () =>
-                            profile.takePictureAsStream(ImageSource.gallery),
+                        onPressed: () {
+                          profile.takePictureAsStream(ImageSource.gallery);
+                          popContext(context);
+                        },
                       ),
                     ],
                   ),
@@ -67,6 +75,9 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final profile = GetBloc.of<BlocProfile>(context);
+    final home = GetBloc.of<BlocHome>(context);
+
+    profile.isMeAsUser(home.streamUser);
 
     return StreamBuilder<QuerySnapshot>(
       stream: profile.allPostsFrom,
@@ -105,7 +116,6 @@ class ProfilePage extends StatelessWidget {
                                   decoration: BoxDecoration(
                                     image: DecorationImage(
                                       image: profileImage,
-                                      // TODO : s'entrainer a merged combined stream parce qu'avec le rajout du stream pour l'image ca fait trop de nested, surement moyen d'optimiser
                                       fit: BoxFit.cover,
                                     ),
                                   ),
@@ -113,8 +123,10 @@ class ProfilePage extends StatelessWidget {
                                     child: MyImageProfile(
                                       url: profile.user.imageUrl,
                                       size: 75.0,
-                                      onPressed: () => this
-                                          .updateImageProfile(context, profile),
+                                      onPressed: () {
+                                        this.updateImageProfile(
+                                            context, profile);
+                                      },
                                     ),
                                   ),
                                 ),
@@ -125,8 +137,7 @@ class ProfilePage extends StatelessWidget {
                               delegate: MyHeaderDelegate(
                                   isMe: profile.isMe,
                                   user: profile.user,
-                                  callback: () =>
-                                      updateImageProfile(context, profile),
+                                  callback: () {},
                                   scrolled: profile.showTitle),
                             ),
                             SliverList(

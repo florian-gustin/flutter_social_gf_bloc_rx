@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_social_gf_bloc_rx/blocs/base.dart';
+import 'package:flutter_social_gf_bloc_rx/blocs/bloc_home.dart';
 import 'package:flutter_social_gf_bloc_rx/models/user.dart';
 import 'package:flutter_social_gf_bloc_rx/services/firebase.dart';
 import 'package:flutter_social_gf_bloc_rx/ui/theme/widgets.dart';
@@ -33,10 +34,6 @@ class BlocProfile extends BlocBase {
   Sink<ScrollController> get sinkScrollController =>
       _subjectScrollController.sink;
 
-  BehaviorSubject<File> _subjectNewImageTaken = BehaviorSubject<File>();
-  Stream<File> get streamNewImageTaken => _subjectNewImageTaken.stream;
-  Sink<File> get sinkNewImageTaken => _subjectNewImageTaken.sink;
-
   BlocProfile({@required this.user}) {
     scrollController = ScrollController();
     syncScrollController();
@@ -45,13 +42,10 @@ class BlocProfile extends BlocBase {
     firstname = TextEditingController();
     lastname = TextEditingController();
     description = TextEditingController();
-    _firebase.currentUser.listen((FirebaseUser usr) {
-      isMe = (usr.uid == user.uid);
-    });
   }
   // need these two functions and a stream to bypass
   // the actual usage of ScrollController Widget
-  // for listening in BLoC Pattern
+  // to listening from BLoC Pattern
   void scrollControllerListener() {
     scrollController
       ..addListener(() {
@@ -76,16 +70,23 @@ class BlocProfile extends BlocBase {
       ImagePicker.pickImage(source: source).asStream().listen((File file) {
         newImageTaken = file;
         _firebase.updatePicture(file, user.uid);
-        syncNewImageTaken();
       });
     }
   }
 
-  void syncNewImageTaken() => sinkNewImageTaken.add(newImageTaken);
+  void isMeAsUser(Stream<User> userStream) {
+    userStream.listen((usr) {
+      if (usr.uid == user.uid) {
+        isMe = true;
+        user = usr;
+      } else {
+        isMe = false;
+      }
+    });
+  }
 
   @override
   void dispose() {
-    _subjectNewImageTaken.close();
     firstname.dispose();
     lastname.dispose();
     description.dispose();

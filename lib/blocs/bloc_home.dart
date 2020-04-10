@@ -42,8 +42,11 @@ class BlocHome extends BlocBase {
   void syncUser() => sinkUser.add(user);
 
   @override
-  void dispose() {
+  void dispose() async {
     _subjectIndex.close();
+    // fix bad state from profile
+    // next time handle higher the bloc
+    await _subjectUser.drain();
     _subjectUser.close();
     fDisposingBlocOf('Bloc Home');
   }

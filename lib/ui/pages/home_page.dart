@@ -23,10 +23,6 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-//    final root = GetBloc.of<BlocRoot>(context);
-//
-//    root.signOut();
-
     final home = GetBloc.of<BlocHome>(context);
 
     return StreamBuilder<User>(

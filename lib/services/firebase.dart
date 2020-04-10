@@ -129,7 +129,7 @@ class Firebase {
 
   void updatePicture(File file, String uid) {
     StorageReference ref = storageUser.child(uid);
-    addImage(file, ref).then((path) {
+    addImage(file, ref).asStream().listen((path) {
       Map<String, dynamic> m = {kImageUrl: path};
       updateUser(uid, m);
     });
