@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_social_gf_bloc_rx/blocs/bloc_router.dart';
 import 'package:flutter_social_gf_bloc_rx/models/post.dart';
 import 'package:flutter_social_gf_bloc_rx/models/user.dart';
 import 'package:flutter_social_gf_bloc_rx/ui/theme/widgets.dart';
@@ -9,11 +10,16 @@ class PostTile extends StatelessWidget {
   final User user;
   final bool detail;
 
+  final Function onPressedLike;
+  final Function onCommentSubmitted;
+
   const PostTile({
     Key key,
     @required this.post,
     @required this.user,
-    this.detail,
+    this.detail = false,
+    this.onPressedLike,
+    this.onCommentSubmitted,
   }) : super(key: key);
 
   @override
@@ -42,7 +48,7 @@ class PostTile extends StatelessWidget {
                         color: baseAccent,
                       ),
                       MyText(
-                        '${post.date}',
+                        fDate(post.date),
                         color: pointer,
                       ),
                     ],
@@ -108,12 +114,22 @@ class PostTile extends StatelessWidget {
                       icon: (post.likes.contains(user.uid))
                           ? iLikeFull
                           : iLikeEmpty,
-                      onPressed: null),
+                      onPressed: onPressedLike),
                   MyText(
                     post.likes.length.toString(),
                     color: baseAccent,
                   ),
-                  IconButton(icon: iMsg, onPressed: null),
+                  IconButton(
+                      icon: iMsg,
+                      onPressed: () {
+                        if (!detail) {
+                          BlocRouter().comments(
+                              context: context,
+                              user: user,
+                              post: post,
+                              onSubmit: onCommentSubmitted);
+                        }
+                      }),
                   MyText(
                     post.comments.length.toString(),
                     color: baseAccent,

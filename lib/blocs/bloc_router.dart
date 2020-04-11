@@ -6,8 +6,10 @@ import 'package:flutter_social_gf_bloc_rx/blocs/bloc_profile.dart';
 import 'package:flutter_social_gf_bloc_rx/blocs/bloc_users.dart';
 import 'package:flutter_social_gf_bloc_rx/blocs/bloc_users.dart';
 import 'package:flutter_social_gf_bloc_rx/main.dart';
+import 'package:flutter_social_gf_bloc_rx/models/post.dart';
 import 'package:flutter_social_gf_bloc_rx/models/user.dart';
 import 'package:flutter_social_gf_bloc_rx/ui/pages/auth_page.dart';
+import 'package:flutter_social_gf_bloc_rx/ui/pages/comments_page.dart';
 import 'package:flutter_social_gf_bloc_rx/ui/pages/feed_page.dart';
 import 'package:flutter_social_gf_bloc_rx/ui/pages/home_page.dart';
 import 'package:flutter_social_gf_bloc_rx/ui/pages/new_post_page.dart';
@@ -67,4 +69,18 @@ class BlocRouter {
         onDispose: (_, bloc) => bloc.dispose(),
         child: NewPostPage(),
       );
+
+  Future<dynamic> comments(
+          {@required BuildContext context,
+          @required User user,
+          @required Post post,
+          @required Function onSubmit}) =>
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (ctx) => CommentsPage(
+                    onSubmit: onSubmit,
+                    user: user,
+                    post: post,
+                  )));
 }

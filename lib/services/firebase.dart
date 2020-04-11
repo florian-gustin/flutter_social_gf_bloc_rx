@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter_social_gf_bloc_rx/models/post.dart';
 import 'package:flutter_social_gf_bloc_rx/models/user.dart';
 import '';
 import 'package:flutter_social_gf_bloc_rx/ui/theme/widgets.dart';
@@ -80,6 +81,7 @@ class Firebase {
 
   // db
   final dbUsers = dbInstance.collection('users');
+  final dbNotifs = dbInstance.collection('notifications');
 
   void addUser(String uid, Map<String, dynamic> map) {
     dbUsers.document(uid).setData(map);
@@ -104,7 +106,21 @@ class Firebase {
       other.ref.updateData({
         kFollowers: FieldValue.arrayUnion([me.uid])
       });
+      addNotif(myAccount.uid, other.uid,
+          '${myAccount.firstname} is following you', myAccount.ref, kFollowers);
     }
+  }
+
+  void addNotif(
+      String from, String to, String text, DocumentReference ref, String type) {
+    Map<String, dynamic> map = {
+      kUID: from,
+      kText: text,
+      kType: type,
+      kRef: ref,
+      kDate: DateTime.now().millisecondsSinceEpoch.toInt(),
+    };
+    dbNotifs.document(to).collection('singleNotif').add(map);
   }
 
   void addPost(String uid, String text, File file) {
@@ -126,6 +142,33 @@ class Firebase {
     } else {
       dbUsers.document(uid).collection('posts').document().setData(map);
     }
+  }
+
+  void addLike(Post post) {
+    if (post.likes.contains(myAccount.uid)) {
+      post.ref.updateData({
+        kLikes: FieldValue.arrayRemove([myAccount.uid])
+      });
+    } else {
+      post.ref.updateData({
+        kLikes: FieldValue.arrayUnion([myAccount.uid])
+      });
+      addNotif(myAccount.uid, post.userID,
+          '${myAccount.firstname} liked your post', post.ref, kLikes);
+    }
+  }
+
+  void addComment(DocumentReference ref, String text, String postAuthor) {
+    Map<dynamic, dynamic> map = {
+      kUID: myAccount.uid,
+      kText: text,
+      kDate: DateTime.now().millisecondsSinceEpoch.toInt()
+    };
+    ref.updateData({
+      kComments: FieldValue.arrayUnion([map])
+    });
+    addNotif(myAccount.uid, postAuthor,
+        '${myAccount.firstname} has commented your post', ref, kComments);
   }
 
   Stream<QuerySnapshot> allPostsFrom(String uid) =>

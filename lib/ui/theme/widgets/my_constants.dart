@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_social_gf_bloc_rx/models/user.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
 
 User myAccount;
 
@@ -42,9 +44,23 @@ String kDate = 'date';
 String kLikes = 'likes';
 String kComments = 'comments';
 String kDescription = 'description';
+String kType = 'type';
+String kRef = 'ref';
 
 // Functions
 void hideKeyboard(BuildContext context) =>
     FocusScope.of(context).requestFocus(FocusNode());
 void popContext(BuildContext context) => Navigator.pop(context);
 void fDisposingBlocOf(String name) => print('Disposing of $name');
+String fDate(int timestamp) {
+  initializeDateFormatting();
+  DateTime now = DateTime.now();
+  DateTime timePost = DateTime.fromMillisecondsSinceEpoch(timestamp);
+  DateFormat format;
+  if (now.difference(timePost).inDays > 0) {
+    format = DateFormat.yMMMd('fr_FR');
+  } else {
+    format = DateFormat.Hm('fr_FR');
+  }
+  return format.format(timePost).toString();
+}

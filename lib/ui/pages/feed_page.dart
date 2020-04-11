@@ -37,7 +37,14 @@ class FeedPage extends StatelessWidget {
                 itemBuilder: (build, index) {
                   Post post = snap.data[index][0];
                   User user = snap.data[index][1];
-                  return PostTile(post: post, user: user);
+                  return PostTile(
+                    post: post,
+                    user: user,
+                    onPressedLike: () {
+                      feed.handleLike(post);
+                    },
+                    onCommentSubmitted: feed.handleComment,
+                  );
                 },
               );
             }

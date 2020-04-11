@@ -19,8 +19,8 @@ class BlocFeed extends BlocBase {
     getData();
   }
 
-  BehaviorSubject<List<List<dynamic>>> _subjectData =
-      BehaviorSubject<List<List<dynamic>>>();
+  ReplaySubject<List<List<dynamic>>> _subjectData =
+      ReplaySubject<List<List<dynamic>>>();
   Stream<List<List<dynamic>>> get streamData => _subjectData.stream;
   Sink<List<List<dynamic>>> get sinkData => _subjectData.sink;
 
@@ -59,9 +59,13 @@ class BlocFeed extends BlocBase {
       });
     });
     // TODO : need to fix the order
-    feeds.sort((a, b) => b[0].date.compareTo(a[0].date));
+    feeds.sort((a, b) => a[0].date.compareTo(b[0].date));
     sinkData.add(feeds);
   }
+
+  void handleLike(Post post) => _firebase.addLike(post);
+  void handleComment(DocumentReference ref, String text, String postAuthor) =>
+      _firebase.addComment(ref, text, postAuthor);
 
   @override
   void dispose() {

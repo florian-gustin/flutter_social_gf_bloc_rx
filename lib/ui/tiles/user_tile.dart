@@ -27,7 +27,7 @@ class UserTile extends StatelessWidget {
           // rewrap with BlocHome to access
           return Scaffold(
             backgroundColor: base,
-            body: SafeArea(child: BlocRouter().profile(user: user)),
+            body: BlocRouter().profile(user: user),
           );
         }));
       },
