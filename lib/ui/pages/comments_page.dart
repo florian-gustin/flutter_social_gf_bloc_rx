@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_social_gf_bloc_rx/blocs/base.dart';
 import 'package:flutter_social_gf_bloc_rx/blocs/bloc_detail.dart';
+import 'package:flutter_social_gf_bloc_rx/blocs/bloc_router.dart';
 import 'package:flutter_social_gf_bloc_rx/models/post.dart';
 import 'package:flutter_social_gf_bloc_rx/models/user.dart';
 import 'package:flutter_social_gf_bloc_rx/ui/pages/detail_page.dart';
@@ -32,10 +33,7 @@ class CommentsPage extends StatelessWidget {
                 onTap: () {
                   hideKeyboard(context);
                 },
-                child: BlocProvider<BlocDetail>(
-                    builder: (_, bloc) => BlocDetail(post: post, user: user),
-                    onDispose: (_, bloc) => bloc.dispose(),
-                    child: DetailPage()),
+                child: BlocRouter().detail(post: post, user: user),
               ),
             ),
             Container(

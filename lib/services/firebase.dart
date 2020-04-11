@@ -118,6 +118,7 @@ class Firebase {
       kText: text,
       kType: type,
       kRef: ref,
+      kWatched: false,
       kDate: DateTime.now().millisecondsSinceEpoch.toInt(),
     };
     dbNotifs.document(to).collection('singleNotif').add(map);

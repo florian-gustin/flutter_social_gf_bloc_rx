@@ -46,6 +46,7 @@ String kComments = 'comments';
 String kDescription = 'description';
 String kType = 'type';
 String kRef = 'ref';
+String kWatched = 'watched';
 
 // Functions
 void hideKeyboard(BuildContext context) =>

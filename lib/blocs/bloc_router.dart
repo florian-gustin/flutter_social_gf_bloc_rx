@@ -10,6 +10,7 @@ import 'package:flutter_social_gf_bloc_rx/models/post.dart';
 import 'package:flutter_social_gf_bloc_rx/models/user.dart';
 import 'package:flutter_social_gf_bloc_rx/ui/pages/auth_page.dart';
 import 'package:flutter_social_gf_bloc_rx/ui/pages/comments_page.dart';
+import 'package:flutter_social_gf_bloc_rx/ui/pages/detail_page.dart';
 import 'package:flutter_social_gf_bloc_rx/ui/pages/feed_page.dart';
 import 'package:flutter_social_gf_bloc_rx/ui/pages/home_page.dart';
 import 'package:flutter_social_gf_bloc_rx/ui/pages/new_post_page.dart';
@@ -20,6 +21,7 @@ import 'package:flutter_social_gf_bloc_rx/ui/pages/profile_page.dart';
 import 'package:flutter_social_gf_bloc_rx/ui/pages/users_page.dart';
 import 'package:flutter_social_gf_bloc_rx/ui/theme/widgets.dart';
 import 'base.dart';
+import 'bloc_detail.dart';
 import 'bloc_feed.dart';
 import 'bloc_notifications.dart';
 import 'bloc_root.dart';
@@ -51,9 +53,8 @@ class BlocRouter {
         child: UsersPage(),
       );
 
-  BlocProvider notifications({@required User user}) =>
-      BlocProvider<BlocNotifications>(
-        builder: (_, bloc) => BlocNotifications(user: user),
+  BlocProvider notifications() => BlocProvider<BlocNotifications>(
+        builder: (_, bloc) => BlocNotifications(),
         onDispose: (_, bloc) => bloc.dispose(),
         child: NotificationsPage(),
       );
@@ -69,6 +70,12 @@ class BlocRouter {
         onDispose: (_, bloc) => bloc.dispose(),
         child: NewPostPage(),
       );
+
+  BlocProvider detail({@required Post post, @required User user}) =>
+      BlocProvider<BlocDetail>(
+          builder: (_, bloc) => BlocDetail(post: post, user: user),
+          onDispose: (_, bloc) => bloc.dispose(),
+          child: DetailPage());
 
   Future<dynamic> comments(
           {@required BuildContext context,
