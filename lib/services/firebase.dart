@@ -45,8 +45,8 @@ class Firebase {
       kFirstname: firstname,
       kLastname: lastname,
       kImageUrl: '',
-      kFollowers: <dynamic>[],
-      kFollowing: <dynamic>[uid],
+      kFollowers: <dynamic>[uid],
+      kFollowing: <dynamic>[],
       kUID: uid,
     };
     addUser(uid, map);

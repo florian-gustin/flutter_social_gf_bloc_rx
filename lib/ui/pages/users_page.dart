@@ -21,22 +21,7 @@ class UsersPage extends StatelessWidget {
           final documents = snap.data.documents;
           return NestedScrollView(
             headerSliverBuilder: (_, bool scrolled) {
-              return [
-                SliverAppBar(
-                  pinned: true,
-                  flexibleSpace: FlexibleSpaceBar(
-                    title: MyText(
-                      'Users List',
-                      color: baseAccent,
-                    ),
-                    background: Image(
-                      image: eventImage,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  expandedHeight: 150.0,
-                )
-              ];
+              return [MySliverAppBar(title: 'Users List', image: eventImage)];
             },
             body: ListView.builder(
               padding: EdgeInsets.all(0.0),

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_social_gf_bloc_rx/models/user.dart';
+
+User myAccount;
 
 // Colors
 const Color white = const Color(0xFFFFFFFF);

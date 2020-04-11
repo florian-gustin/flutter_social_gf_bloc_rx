@@ -10,14 +10,14 @@ import 'package:flutter_social_gf_bloc_rx/ui/theme/widgets/my_bottom_bar.dart';
 class HomePage extends StatelessWidget {
   Widget showPage(int index, User user) {
     switch (index) {
-      case 0:
-        return BlocRouter().feed(user: user);
       case 1:
         return BlocRouter().users();
       case 2:
         return BlocRouter().notifications(user: user);
-      default:
+      case 3:
         return BlocRouter().profile(user: user);
+      default:
+        return BlocRouter().feed(user: user);
     }
   }
 

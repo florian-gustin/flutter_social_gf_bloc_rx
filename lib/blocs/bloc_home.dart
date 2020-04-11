@@ -30,6 +30,7 @@ class BlocHome extends BlocBase {
       user = User(documents);
       // assign to stream
       sinkUser.add(user);
+      myAccount = user;
     });
   }
 

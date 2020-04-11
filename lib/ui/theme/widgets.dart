@@ -16,3 +16,4 @@ export 'widgets/my_gradient_button.dart';
 export 'widgets/my_header_delegate.dart';
 export 'widgets/my_image_profile.dart';
 export 'widgets/my_follow_button.dart';
+export 'widgets/my_sliver_app_bar.dart';

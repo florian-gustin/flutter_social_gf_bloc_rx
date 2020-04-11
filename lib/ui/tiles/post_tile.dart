@@ -13,7 +13,7 @@ class PostTile extends StatelessWidget {
     Key key,
     @required this.post,
     @required this.user,
-    @required this.detail,
+    this.detail,
   }) : super(key: key);
 
   @override
