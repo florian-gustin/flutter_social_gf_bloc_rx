@@ -24,6 +24,12 @@ class BlocFeed extends BlocBase {
   Stream<List<List<dynamic>>> get streamData => _subjectData.stream;
   Sink<List<List<dynamic>>> get sinkData => _subjectData.sink;
 
+  Stream usersStream() {
+    _firebase.dbUsers
+        .where(kFollowers, arrayContains: myAccount.uid)
+        .snapshots();
+  }
+
   void getData() {
     feeds = [];
     sinkData.add(null);

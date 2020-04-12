@@ -3,6 +3,7 @@ import 'package:flutter_social_gf_bloc_rx/blocs/base.dart';
 import 'package:flutter_social_gf_bloc_rx/models/post.dart';
 import 'package:flutter_social_gf_bloc_rx/models/user.dart';
 import 'package:flutter_social_gf_bloc_rx/services/firebase.dart';
+import 'package:flutter_social_gf_bloc_rx/ui/theme/widgets.dart';
 
 class BlocDetail extends BlocBase {
   User user;
@@ -21,6 +22,6 @@ class BlocDetail extends BlocBase {
 
   @override
   void dispose() {
-    // TODO: implement dispose
+    fDisposingBlocOf('Bloc Detail');
   }
 }

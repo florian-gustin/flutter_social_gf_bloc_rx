@@ -25,22 +25,19 @@ class NotifTile extends StatelessWidget {
           User user = User(snap.data);
           return InkWell(
             onTap: () {
-              notif.notifRef.updateData({kWatched: true});
+//              notif.notifRef.updateData({kWatched: true});
               if (notif.type == kFollowers) {
                 Navigator.push(context, MaterialPageRoute(builder: (build) {
                   return Scaffold(
+                    backgroundColor: white,
                     body: BlocRouter().profile(user: user),
                   );
                 }));
               } else {
                 notif.ref.get().then((snap) {
                   Post post = Post(snap);
-                  Navigator.push(context, MaterialPageRoute(builder: (buildx) {
-                    BlocRouter().comments(
-                        context: ctx, user: user, post: post, onSubmit: null);
-                  }));
-
-                  // TODO : TO FIX
+                  BlocRouter().comments(
+                      context: ctx, user: user, post: post, onSubmit: null);
                 });
               }
             },
