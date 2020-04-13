@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_social_gf_bloc_rx/blocs/base.dart';
+import 'package:flutter_social_gf_bloc_rx/blocs/bloc_feed_try.dart';
 import 'package:flutter_social_gf_bloc_rx/blocs/bloc_home.dart';
 import 'package:flutter_social_gf_bloc_rx/blocs/bloc_root.dart';
 import 'package:flutter_social_gf_bloc_rx/blocs/bloc_router.dart';
 import 'package:flutter_social_gf_bloc_rx/models/user.dart';
 import 'package:flutter_social_gf_bloc_rx/ui/pages/feed_page.dart';
+import 'package:flutter_social_gf_bloc_rx/ui/pages/feed_page_try.dart';
 import 'package:flutter_social_gf_bloc_rx/ui/theme/widgets.dart';
 import 'package:flutter_social_gf_bloc_rx/ui/theme/widgets/my_bottom_bar.dart';
 
@@ -18,7 +20,8 @@ class HomePage extends StatelessWidget {
       case 3:
         return BlocRouter().profile(user: user);
       default:
-        return BlocRouter().feed(user: myAccount);
+        return BlocProvider<BlocFeedTry>(
+            child: FeedPageTry(), blocBuilder: () => BlocFeedTry());
     }
   }
 

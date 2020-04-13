@@ -109,13 +109,7 @@ class _FeedState extends State<FeedPage> {
 }
 
 //class FeedPage extends StatelessWidget {
-//  test(List<Post> snapshot) {
-//    List<Widget> l = [];
-//    snapshot.forEach((element) {
-//      l.add(PostTile(post: element, user: myAccount));
-//    });
-//    return l;
-//  }
+
 //
 //  @override
 //  Widget build(BuildContext context) {
