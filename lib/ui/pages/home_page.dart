@@ -4,6 +4,7 @@ import 'package:flutter_social_gf_bloc_rx/blocs/bloc_home.dart';
 import 'package:flutter_social_gf_bloc_rx/blocs/bloc_root.dart';
 import 'package:flutter_social_gf_bloc_rx/blocs/bloc_router.dart';
 import 'package:flutter_social_gf_bloc_rx/models/user.dart';
+import 'package:flutter_social_gf_bloc_rx/ui/pages/feed_page.dart';
 import 'package:flutter_social_gf_bloc_rx/ui/theme/widgets.dart';
 import 'package:flutter_social_gf_bloc_rx/ui/theme/widgets/my_bottom_bar.dart';
 
@@ -17,13 +18,13 @@ class HomePage extends StatelessWidget {
       case 3:
         return BlocRouter().profile(user: user);
       default:
-        return BlocRouter().feed(user: user);
+        return BlocRouter().feed(user: myAccount);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final home = GetBloc.of<BlocHome>(context);
+    final home = BlocProvider.of<BlocHome>(context);
 
     return StreamBuilder<User>(
       stream: home.streamUser,

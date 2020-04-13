@@ -111,7 +111,7 @@ class PostTile extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   IconButton(
-                      icon: (post.likes.contains(user.uid))
+                      icon: (post.likes.contains(myAccount.uid))
                           ? iLikeFull
                           : iLikeEmpty,
                       onPressed: onPressedLike),

@@ -11,8 +11,8 @@ import 'package:flutter_social_gf_bloc_rx/ui/tiles/user_tile.dart';
 class UsersPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final users = GetBloc.of<BlocUsers>(context);
-    final home = GetBloc.of<BlocHome>(context);
+    final users = BlocProvider.of<BlocUsers>(context);
+    final home = BlocProvider.of<BlocHome>(context);
 
     return StreamBuilder<QuerySnapshot>(
       stream: users.allUsers,

@@ -27,54 +27,45 @@ import 'bloc_notifications.dart';
 import 'bloc_root.dart';
 
 class BlocRouter {
-  BlocProvider root() => BlocProvider<BlocRoot>(
-      builder: (_, bloc) => BlocRoot(),
-      onDispose: (_, bloc) => bloc.dispose(),
-      child: MyApp());
+  BlocProvider root() =>
+      BlocProvider<BlocRoot>(blocBuilder: () => BlocRoot(), child: MyApp());
 
   Widget loading() => MyLoadingPage();
   Widget auth() => AuthPage();
 
   BlocProvider home({@required String userID}) => BlocProvider<BlocHome>(
-        builder: (_, bloc) => BlocHome(userID: userID),
-        onDispose: (_, bloc) => bloc.dispose(),
+        blocBuilder: () => BlocHome(userID: userID),
         child: HomePage(),
       );
 
   BlocProvider feed({@required User user}) => BlocProvider<BlocFeed>(
-        builder: (_, bloc) => BlocFeed(user: user),
-        onDispose: (_, bloc) => bloc.dispose(),
+        blocBuilder: () => BlocFeed(user: user),
         child: FeedPage(),
       );
 
   BlocProvider users() => BlocProvider<BlocUsers>(
-        builder: (_, bloc) => BlocUsers(),
-        onDispose: (_, bloc) => bloc.dispose(),
+        blocBuilder: () => BlocUsers(),
         child: UsersPage(),
       );
 
   BlocProvider notifications() => BlocProvider<BlocNotifications>(
-        builder: (_, bloc) => BlocNotifications(),
-        onDispose: (_, bloc) => bloc.dispose(),
+        blocBuilder: () => BlocNotifications(),
         child: NotificationsPage(),
       );
 
   BlocProvider profile({@required User user}) => BlocProvider<BlocProfile>(
-        builder: (_, bloc) => BlocProfile(user: user),
-        onDispose: (_, bloc) => bloc.dispose(),
+        blocBuilder: () => BlocProfile(user: user),
         child: ProfilePage(),
       );
 
   BlocProvider newPost() => BlocProvider<BlocNewPost>(
-        builder: (_, bloc) => BlocNewPost(),
-        onDispose: (_, bloc) => bloc.dispose(),
+        blocBuilder: () => BlocNewPost(),
         child: NewPostPage(),
       );
 
   BlocProvider detail({@required Post post, @required User user}) =>
       BlocProvider<BlocDetail>(
-          builder: (_, bloc) => BlocDetail(post: post, user: user),
-          onDispose: (_, bloc) => bloc.dispose(),
+          blocBuilder: () => BlocDetail(post: post, user: user),
           child: DetailPage());
 
   Future<dynamic> comments(

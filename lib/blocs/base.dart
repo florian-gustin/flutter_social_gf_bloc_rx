@@ -1,63 +1,73 @@
 import 'package:flutter/widgets.dart';
 
-class GetBloc<B> extends InheritedWidget {
-  final B bloc;
+typedef BlocBuilder<T> = T Function();
+typedef BlocDisposer<T> = Function(T);
 
-  const GetBloc({Key key, this.bloc, Widget child})
-      : super(key: key, child: child);
-
-  @override
-  bool updateShouldNotify(GetBloc<B> oldWidget) {
-    return oldWidget.bloc != bloc;
-  }
-
-  static B of<B>(BuildContext context) {
-    final GetBloc<B> provider =
-        context.findAncestorWidgetOfExactType<GetBloc<B>>();
-    return provider.bloc;
-  }
+abstract class BlocBase {
+  void dispose();
 }
 
-class BlocProvider<B> extends StatefulWidget {
-  final B Function(BuildContext context, B bloc) builder;
-  final void Function(BuildContext context, B bloc) onDispose;
-  final Widget child;
-
-  const BlocProvider({
+class BlocProvider<T extends BlocBase> extends StatefulWidget {
+  BlocProvider({
     Key key,
-    @required this.builder,
-    @required this.onDispose,
     @required this.child,
+    @required this.blocBuilder,
+    this.blocDispose,
   }) : super(key: key);
 
+  final Widget child;
+  final BlocBuilder<T> blocBuilder;
+  final BlocDisposer<T> blocDispose;
+
   @override
-  _BlocProviderState<B> createState() => _BlocProviderState<B>();
+  _BlocProviderState<T> createState() => _BlocProviderState<T>();
+
+  static T of<T extends BlocBase>(BuildContext context) {
+    _BlocProviderInherited<T> provider = context
+        .getElementForInheritedWidgetOfExactType<_BlocProviderInherited<T>>()
+        ?.widget;
+
+    return provider?.bloc;
+  }
 }
 
-class _BlocProviderState<B> extends State<BlocProvider<B>> {
-  B bloc;
+class _BlocProviderState<T extends BlocBase> extends State<BlocProvider<T>> {
+  T bloc;
 
   @override
   void initState() {
-    if (widget.builder != null) bloc = widget.builder(context, bloc);
     super.initState();
+    bloc = widget.blocBuilder();
   }
 
   @override
   void dispose() {
-    if (widget.onDispose != null) widget.onDispose(context, bloc);
+    if (widget.blocDispose != null) {
+      widget.blocDispose(bloc);
+    } else {
+      bloc?.dispose();
+    }
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return GetBloc(
+    return new _BlocProviderInherited<T>(
       bloc: bloc,
       child: widget.child,
     );
   }
 }
 
-abstract class BlocBase {
-  void dispose();
+class _BlocProviderInherited<T> extends InheritedWidget {
+  _BlocProviderInherited({
+    Key key,
+    @required Widget child,
+    @required this.bloc,
+  }) : super(key: key, child: child);
+
+  final T bloc;
+
+  @override
+  bool updateShouldNotify(_BlocProviderInherited oldWidget) => false;
 }

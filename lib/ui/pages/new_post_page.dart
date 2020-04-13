@@ -10,8 +10,8 @@ import 'package:image_picker/image_picker.dart';
 class NewPostPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final newPost = GetBloc.of<BlocNewPost>(context);
-    final home = GetBloc.of<BlocHome>(context);
+    final newPost = BlocProvider.of<BlocNewPost>(context);
+    final home = BlocProvider.of<BlocHome>(context);
 
     return Container(
       color: base,

@@ -13,7 +13,7 @@ import 'package:flutter_social_gf_bloc_rx/ui/tiles/post_tile.dart';
 class DetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final detail = GetBloc.of<BlocDetail>(context);
+    final detail = BlocProvider.of<BlocDetail>(context);
 
     return StreamBuilder<DocumentSnapshot>(
       stream: detail.post.ref.snapshots(),

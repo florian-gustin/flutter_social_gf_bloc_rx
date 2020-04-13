@@ -73,7 +73,7 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final profile = GetBloc.of<BlocProfile>(context);
+    final profile = BlocProvider.of<BlocProfile>(context);
 
     return StreamBuilder<QuerySnapshot>(
       stream: profile.allPostsFrom,
@@ -160,9 +160,16 @@ class ProfilePage extends StatelessWidget {
 
                                             final post = Post(documents[index]);
                                             return PostTile(
-                                                post: post,
-                                                user: user,
-                                                detail: null);
+                                              post: post,
+                                              user: user,
+                                              detail: null,
+//TODO : TO FIX
+//                                              onPressedLike: () {
+//                                                profile.handleLike(post);
+//                                              },
+//                                              onCommentSubmitted:
+//                                                  profile.handleComment,
+                                            );
                                           },
                                         ),
                                       ),

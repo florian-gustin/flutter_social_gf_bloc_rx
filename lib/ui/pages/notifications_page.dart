@@ -10,7 +10,7 @@ import 'package:flutter_social_gf_bloc_rx/ui/tiles/notif_tile.dart';
 class NotificationsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final notifications = GetBloc.of<BlocNotifications>(context);
+    final notifications = BlocProvider.of<BlocNotifications>(context);
 
     return StreamBuilder<QuerySnapshot>(
       stream: notifications.notifsStreams(),

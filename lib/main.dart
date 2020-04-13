@@ -14,7 +14,7 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final root = GetBloc.of<BlocRoot>(context);
+    final root = BlocProvider.of<BlocRoot>(context);
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
