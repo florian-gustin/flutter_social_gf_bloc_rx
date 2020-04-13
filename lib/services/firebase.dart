@@ -83,7 +83,6 @@ class Firebase {
   final dbUsers = dbInstance.collection('users');
   final dbNotifs = dbInstance.collection('notifications');
   final dbPosts = dbInstance.collectionGroup('posts');
-  final dbTest = dbInstance.collection('popo');
 
   void addUser(String uid, Map<String, dynamic> map) {
     dbUsers.document(uid).setData(map);

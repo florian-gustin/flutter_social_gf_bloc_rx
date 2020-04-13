@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_social_gf_bloc_rx/blocs/base.dart';
 import 'package:flutter_social_gf_bloc_rx/blocs/bloc_home.dart';
+import 'package:flutter_social_gf_bloc_rx/models/post.dart';
 import 'package:flutter_social_gf_bloc_rx/models/user.dart';
 import 'package:flutter_social_gf_bloc_rx/services/firebase.dart';
 import 'package:flutter_social_gf_bloc_rx/ui/theme/widgets.dart';
@@ -115,6 +116,10 @@ class BlocProfile extends BlocBase {
       });
     }
   }
+
+  void handleLike(Post post) => _firebase.addLike(post);
+  void handleComment(DocumentReference ref, String text, String postAuthor) =>
+      _firebase.addComment(ref, text, postAuthor);
 
   @override
   void dispose() async {

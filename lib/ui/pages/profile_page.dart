@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_social_gf_bloc_rx/blocs/base.dart';
-import 'package:flutter_social_gf_bloc_rx/blocs/bloc_feed.dart';
-import 'package:flutter_social_gf_bloc_rx/blocs/bloc_home.dart';
 import 'package:flutter_social_gf_bloc_rx/blocs/bloc_profile.dart';
 import 'package:flutter_social_gf_bloc_rx/models/post.dart';
 import 'package:flutter_social_gf_bloc_rx/models/user.dart';
@@ -162,13 +160,12 @@ class ProfilePage extends StatelessWidget {
                                             return PostTile(
                                               post: post,
                                               user: user,
-                                              detail: null,
-//TODO : TO FIX
-//                                              onPressedLike: () {
-//                                                profile.handleLike(post);
-//                                              },
-//                                              onCommentSubmitted:
-//                                                  profile.handleComment,
+                                              detail: false,
+                                              onPressedLike: () {
+                                                profile.handleLike(post);
+                                              },
+                                              onCommentSubmitted:
+                                                  profile.handleComment,
                                             );
                                           },
                                         ),

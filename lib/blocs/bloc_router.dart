@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_social_gf_bloc_rx/blocs/bloc_home.dart';
 import 'package:flutter_social_gf_bloc_rx/blocs/bloc_new_post.dart';
 import 'package:flutter_social_gf_bloc_rx/blocs/bloc_profile.dart';
-import 'package:flutter_social_gf_bloc_rx/blocs/bloc_profile.dart';
-import 'package:flutter_social_gf_bloc_rx/blocs/bloc_users.dart';
 import 'package:flutter_social_gf_bloc_rx/blocs/bloc_users.dart';
 import 'package:flutter_social_gf_bloc_rx/main.dart';
 import 'package:flutter_social_gf_bloc_rx/models/post.dart';
@@ -14,8 +12,6 @@ import 'package:flutter_social_gf_bloc_rx/ui/pages/detail_page.dart';
 import 'package:flutter_social_gf_bloc_rx/ui/pages/feed_page.dart';
 import 'package:flutter_social_gf_bloc_rx/ui/pages/home_page.dart';
 import 'package:flutter_social_gf_bloc_rx/ui/pages/new_post_page.dart';
-import 'package:flutter_social_gf_bloc_rx/ui/pages/notifications_page.dart';
-import 'package:flutter_social_gf_bloc_rx/ui/pages/notifications_page.dart';
 import 'package:flutter_social_gf_bloc_rx/ui/pages/notifications_page.dart';
 import 'package:flutter_social_gf_bloc_rx/ui/pages/profile_page.dart';
 import 'package:flutter_social_gf_bloc_rx/ui/pages/users_page.dart';
@@ -38,8 +34,8 @@ class BlocRouter {
         child: HomePage(),
       );
 
-  BlocProvider feed({@required User user}) => BlocProvider<BlocFeed>(
-        blocBuilder: () => BlocFeed(user: user),
+  BlocProvider feed() => BlocProvider<BlocFeed>(
+        blocBuilder: () => BlocFeed(),
         child: FeedPage(),
       );
 
